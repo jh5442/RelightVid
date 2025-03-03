@@ -5,6 +5,8 @@ from enum import Enum
 import db_examples
 import cv2
 
+import spaces
+
 from demo_utils1 import *
 
 from misc_utils.train_utils import unit_test_create_model
@@ -27,12 +29,6 @@ import os
 from pl_trainer.inference.inference import InferenceIP2PVideo
 from tqdm import tqdm
 
-# 下载文件
-os.makedirs('models', exist_ok=True)
-model_path = "models/relvid_mm_sd15_fbc_unet.pth"
-
-if not os.path.exists(model_path):
-    download_url_to_file(url='https://huggingface.co/aleafy/RelightVid/resolve/main/relvid_mm_sd15_fbc_unet.pth', dst=model_path)
 
 # if not os.path.exists(filename):
 #     original_path = os.getcwd()
@@ -158,13 +154,21 @@ def clear_cache(output_path):
 #! 加载模型
 # 配置路径和加载模型
 config_path = 'configs/instruct_v2v_ic_gradio.yaml'
-diffusion_model = unit_test_create_model(config_path).cuda()
+diffusion_model = unit_test_create_model(config_path)
+diffusion_model = diffusion_model.to('cuda')
 
 # 加载模型检查点
 # ckpt_path = 'models/relvid_mm_sd15_fbc_unet.pth' #! change
 # ckpt_path = 'tmp/pytorch_model.bin'
 ckpt = torch.load(model_path, map_location='cpu')
 diffusion_model.load_state_dict(ckpt, strict=False)
+
+# 下载文件
+os.makedirs('models', exist_ok=True)
+model_path = "models/relvid_mm_sd15_fbc_unet.pth"
+
+if not os.path.exists(model_path):
+    download_url_to_file(url='https://huggingface.co/aleafy/RelightVid/resolve/main/relvid_mm_sd15_fbc_unet.pth', dst=model_path)
 
 # import pdb; pdb.set_trace()
 
@@ -212,6 +216,7 @@ def save_video_from_frames(image_pred, save_pth, fps=8):
 
 
 # 伪函数占位（生成空白视频）
+@spaces.GPU
 def dummy_process(input_fg, input_bg):
     # import pdb; pdb.set_trace()
     fg_tensor = load_and_process_video(input_fg).cuda().unsqueeze(0)
