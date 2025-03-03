@@ -19,6 +19,7 @@ import imageio
 import time
 
 from torchvision.transforms import functional as F
+from torch.hub import download_url_to_file
 
 import os
 

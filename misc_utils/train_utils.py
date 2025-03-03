@@ -28,6 +28,7 @@ def get_models(args):
     return model_dict
 
 def get_text_model(args):
+    # 注意简化一下这个函数
     base_path = None
     if args.get('diffusion'):
         if args.diffusion.params.get('base_path'):# 这边有base path的情况下已经load参数了
@@ -38,6 +39,7 @@ def get_text_model(args):
     return None
 
 def get_vae(args):
+    # 简化函数+1
     base_path = None
     if args.get('diffusion'):
         if args.diffusion.params.get('base_path'):
