@@ -228,8 +228,10 @@ inf_pipe = InferenceIP2PVideo(
 @spaces.GPU
 def dummy_process(input_fg, input_bg):
     # import pdb; pdb.set_trace()
-    fg_tensor = load_and_process_video(input_fg).cuda().unsqueeze(0)
-    bg_tensor = load_and_process_video(input_bg).cuda().unsqueeze(0) # (1, 16, 4, 64, 64)
+
+    diffusion_model.to(torch.float16)
+    fg_tensor = load_and_process_video(input_fg).cuda().unsqueeze(0).to(dtype=torch.float16)
+    bg_tensor = load_and_process_video(input_bg).cuda().unsqueeze(0).to(dtype=torch.float16) # (1, 16, 4, 64, 64)
 
     cond_fg_tensor = diffusion_model.encode_image_to_latent(fg_tensor)  # (1, 16, 4, 64, 64)
     cond_bg_tensor = diffusion_model.encode_image_to_latent(bg_tensor)
@@ -260,6 +262,7 @@ def dummy_process(input_fg, input_bg):
         text_cfg=TEXT_CFG,
         img_cfg=VIDEO_CFG,
     )['latent']
+    
 
     image_pred = diffusion_model.decode_latent_to_image(latent_pred) # (1,16,3,512,512)
     output_path = os.path.join(new_tmp_dir, f"output_{int(time.time())}.mp4")
