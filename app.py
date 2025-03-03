@@ -30,7 +30,7 @@ from tqdm import tqdm
 os.makedirs('models', exist_ok=True)
 model_path = "models/relvid_mm_sd15_fbc_unet.pth"
 
-if not os.path.exists(filename):
+if not os.path.exists(model_path):
     download_url_to_file(url='https://huggingface.co/aleafy/RelightVid/resolve/main/relvid_mm_sd15_fbc_unet.pth', dst=model_path)
 
 # if not os.path.exists(filename):

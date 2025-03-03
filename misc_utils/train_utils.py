@@ -29,13 +29,10 @@ def get_models(args):
 
 def get_text_model(args):
     base_path = None
-    train_net = None
     if args.get('diffusion'):
         if args.diffusion.params.get('base_path'):# 这边有base path的情况下已经load参数了
             base_path = args.diffusion.params.base_path
-            train_net = args.diffusion.params.get('unet_init_weights')
     if args.get('text_model'):
-        args.text_model.params.base_path = base_path
         text_model = instantiate_from_config(args.text_model)
         return text_model
     return None
