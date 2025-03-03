@@ -375,4 +375,4 @@ with block:
 
 # 启动 Gradio 应用
 # block.launch(server_name='0.0.0.0', server_port=10002, share=True)
-block.launch(share=True)
+block.launch()
