@@ -5,7 +5,7 @@ from enum import Enum
 import db_examples
 import cv2
 
-# from demo_utils1 import *
+from demo_utils1 import *
 
 from misc_utils.train_utils import unit_test_create_model
 from misc_utils.image_utils import save_tensor_to_gif, save_tensor_to_images
@@ -28,7 +28,10 @@ from tqdm import tqdm
 
 # 下载文件
 os.makedirs('models', exist_ok=True)
-filename = "models/iclight_sd15_fbc.safetensors"
+model_path = "models/relvid_mm_sd15_fbc_unet.pth"
+
+if not os.path.exists(filename):
+    download_url_to_file(url='https://huggingface.co/aleafy/RelightVid/resolve/main/relvid_mm_sd15_fbc_unet.pth', dst=model_path)
 
 # if not os.path.exists(filename):
 #     original_path = os.getcwd()
@@ -157,15 +160,16 @@ config_path = 'configs/instruct_v2v_ic_gradio.yaml'
 diffusion_model = unit_test_create_model(config_path).cuda()
 
 # 加载模型检查点
-ckpt_path = 'models/pytorch_model.bin' #! change
-ckpt = torch.load(ckpt_path, map_location='cpu')
+# ckpt_path = 'models/relvid_mm_sd15_fbc_unet.pth' #! change
+# ckpt_path = 'tmp/pytorch_model.bin'
+ckpt = torch.load(model_path, map_location='cpu')
 diffusion_model.load_state_dict(ckpt, strict=False)
 
 # import pdb; pdb.set_trace()
 
-# # 更改全局临时目录
-# new_tmp_dir = "./demo/gradio_bg"
-# os.makedirs(new_tmp_dir, exist_ok=True)
+# 更改全局临时目录
+new_tmp_dir = "./demo/gradio_bg"
+os.makedirs(new_tmp_dir, exist_ok=True)
 
 # import pdb; pdb.set_trace()
 
