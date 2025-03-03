@@ -1,0 +1,7 @@
+diffusion:
+  params:
+    base_path: /home/fy/.cache/huggingface/hub/models--stablediffusionapi--realistic-vision-v51/snapshots/19e3643d7d963c156d01537188ec08f0b79a514a
+text_model:
+  target: modules.openclip.modules.FrozenCLIPEmbedder
+  params:
+    freeze: true
