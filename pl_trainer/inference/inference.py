@@ -176,8 +176,8 @@ class InferenceIP2PVideo(Inference):
         text       x         x         v
         img        x         v         v
         '''
-        all_latent = []
-        all_pred = [] # x0_hat
+        # all_latent = []
+        # all_pred = [] # x0_hat
         for i, t in enumerate(tqdm(self.scheduler.timesteps[start_time:])):
             t = int(t)
             latent1 = torch.cat([latent, self.zeros(img_cond)], dim=2)
@@ -208,13 +208,18 @@ class InferenceIP2PVideo(Inference):
             pred_samples = self.scheduler.step(noise_pred, t, latent)
             latent = pred_samples.prev_sample
             pred = pred_samples.pred_original_sample
-            all_latent.append(latent.detach())
-            all_pred.append(pred.detach())
+
+            del noise_pred, noise_pred1, noise_pred2, noise_pred3, pred_samples
+            del latent_input, context_input
+            torch.cuda.empty_cache()
+
+            # all_latent.append(latent.detach())
+            # all_pred.append(pred.detach())
 
         return {
             'latent': latent,
-            'all_latent': all_latent,
-            'all_pred': all_pred
+            # 'all_latent': all_latent,
+            # 'all_pred': all_pred
         }
 
     @torch.no_grad()

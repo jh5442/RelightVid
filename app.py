@@ -243,7 +243,8 @@ def dummy_process(input_fg, input_bg):
     TEXT_CFG = 7.5
     text_cond = diffusion_model.encode_text([EDIT_PROMPT])  # (1, 77, 768)
     text_uncond = diffusion_model.encode_text([''])
-    # to float16 todo
+    # to float16
+    print('------------to float 16----------------')
     init_latent, text_cond, text_uncond, cond_tensor = (
         init_latent.to(dtype=torch.float16),
         text_cond.to(dtype=torch.float16),
