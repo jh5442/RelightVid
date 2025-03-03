@@ -251,7 +251,7 @@ def dummy_process(input_fg, input_bg):
         text_uncond.to(dtype=torch.float16),
         cond_tensor.to(dtype=torch.float16)
     )
-    inf_pipe.to(torch.float16)
+    inf_pipe.unet.to(torch.float16)
     latent_pred = inf_pipe(
         latent=init_latent,
         text_cond=text_cond,
