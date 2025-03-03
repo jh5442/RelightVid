@@ -44,7 +44,7 @@ def get_vae(args):
     if args.get('diffusion'):
         if args.diffusion.params.get('base_path'):
             base_path = args.diffusion.params.base_path
-            vae = AutoencoderKL.from_pretrained(os.path.join(base_path, "vae"))
+            vae = AutoencoderKL.from_pretrained(base_path, subfolder="vae")
         return vae
     return None
 

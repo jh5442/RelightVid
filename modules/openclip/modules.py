@@ -100,8 +100,8 @@ class FrozenCLIPEmbedder(AbstractEncoder):
         assert layer in self.LAYERS
         
         if base_path:
-            self.tokenizer = CLIPTokenizer.from_pretrained(os.path.join(base_path, 'tokenizer'))
-            self.transformer = CLIPTextModel.from_pretrained(os.path.join(base_path, 'text_encoder'))
+            self.tokenizer = CLIPTokenizer.from_pretrained(base_path, subfolder='tokenizer')
+            self.transformer = CLIPTextModel.from_pretrained(base_path, subfolder='text_encoder')
         else:
             self.tokenizer = CLIPTokenizer.from_pretrained(version)
             self.transformer = CLIPTextModel.from_pretrained(version)
