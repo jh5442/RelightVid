@@ -161,6 +161,7 @@ diffusion_model = diffusion_model.to('cuda')
 # ckpt_path = 'models/relvid_mm_sd15_fbc_unet.pth' #! change
 # ckpt_path = 'tmp/pytorch_model.bin'
 # 下载文件
+
 os.makedirs('models', exist_ok=True)
 model_path = "models/relvid_mm_sd15_fbc_unet.pth"
 
