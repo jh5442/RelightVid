@@ -218,6 +218,12 @@ def save_video_from_frames(image_pred, save_pth, fps=8):
     print(f"视频已保存至 {save_pth}")
 
 
+inf_pipe = InferenceIP2PVideo(
+        diffusion_model.unet, 
+        scheduler='ddpm',
+        num_ddim_steps=20
+    )
+
 # 伪函数占位（生成空白视频）
 @spaces.GPU
 def dummy_process(input_fg, input_bg):
@@ -230,19 +236,21 @@ def dummy_process(input_fg, input_bg):
     cond_tensor = torch.cat((cond_fg_tensor, cond_bg_tensor), dim=2)
 
     # 初始化潜变量
-    init_latent = torch.randn_like(cond_fg_tensor)
-
-    inf_pipe = InferenceIP2PVideo(
-        diffusion_model.unet, 
-        scheduler='ddpm',
-        num_ddim_steps=20
-    )
+    init_latent = torch.randn_like(cond_fg_tensor)    
 
     EDIT_PROMPT = 'change the background'
     VIDEO_CFG = 1.2
     TEXT_CFG = 7.5
     text_cond = diffusion_model.encode_text([EDIT_PROMPT])  # (1, 77, 768)
     text_uncond = diffusion_model.encode_text([''])
+    # to float16 todo
+    init_latent, text_cond, text_uncond, cond_tensor = (
+        init_latent.to(dtype=torch.float16),
+        text_cond.to(dtype=torch.float16),
+        text_uncond.to(dtype=torch.float16),
+        cond_tensor.to(dtype=torch.float16)
+    )
+    inf_pipe.to(torch.float16)
     latent_pred = inf_pipe(
         latent=init_latent,
         text_cond=text_cond,
@@ -275,6 +283,7 @@ def dummy_process(input_fg, input_bg):
     #     frame = np.zeros((512, 512, 3), dtype=np.uint8)
     #     out.write(frame)
     # out.release()
+    torch.cuda.empty_cache()
 
     return output_path
 
