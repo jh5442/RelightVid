@@ -152,24 +152,24 @@ def clear_cache(output_path):
 
 #! 加载模型
 # 配置路径和加载模型
-# config_path = 'configs/instruct_v2v_ic_gradio.yaml'
-# diffusion_model = unit_test_create_model(config_path)
-# diffusion_model = diffusion_model.to('cuda')
+config_path = 'configs/instruct_v2v_ic_gradio.yaml'
+diffusion_model = unit_test_create_model(config_path)
+diffusion_model = diffusion_model.to('cuda')
 
-# # 加载模型检查点
-# # ckpt_path = 'models/relvid_mm_sd15_fbc_unet.pth' #! change
-# # ckpt_path = 'tmp/pytorch_model.bin'
-# # 下载文件
+# 加载模型检查点
+# ckpt_path = 'models/relvid_mm_sd15_fbc_unet.pth' #! change
+# ckpt_path = 'tmp/pytorch_model.bin'
+# 下载文件
 
-# os.makedirs('models', exist_ok=True)
-# model_path = "models/relvid_mm_sd15_fbc_unet.pth"
+os.makedirs('models', exist_ok=True)
+model_path = "models/relvid_mm_sd15_fbc_unet.pth"
 
-# if not os.path.exists(model_path):
-#     download_url_to_file(url='https://huggingface.co/aleafy/RelightVid/resolve/main/relvid_mm_sd15_fbc_unet.pth', dst=model_path)
+if not os.path.exists(model_path):
+    download_url_to_file(url='https://huggingface.co/aleafy/RelightVid/resolve/main/relvid_mm_sd15_fbc_unet.pth', dst=model_path)
 
 
-# ckpt = torch.load(model_path, map_location='cpu')
-# diffusion_model.load_state_dict(ckpt, strict=False)
+ckpt = torch.load(model_path, map_location='cpu')
+diffusion_model.load_state_dict(ckpt, strict=False)
 
 
 # import pdb; pdb.set_trace()
@@ -216,12 +216,12 @@ def save_video_from_frames(image_pred, save_pth, fps=8):
     out.release()
     print(f"视频已保存至 {save_pth}")
 
-#! model
-# inf_pipe = InferenceIP2PVideo(
-#         diffusion_model.unet, 
-#         scheduler='ddpm',
-#         num_ddim_steps=20
-#     )
+
+inf_pipe = InferenceIP2PVideo(
+        diffusion_model.unet, 
+        scheduler='ddpm',
+        num_ddim_steps=20
+    )
 
 
 def process_example(*args):
