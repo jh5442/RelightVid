@@ -5,7 +5,6 @@ from enum import Enum
 import db_examples
 import cv2
 
-
 from demo_utils1 import *
 
 from misc_utils.train_utils import unit_test_create_model
