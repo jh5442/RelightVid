@@ -153,24 +153,24 @@ def clear_cache(output_path):
 
 #! 加载模型
 # 配置路径和加载模型
-config_path = 'configs/instruct_v2v_ic_gradio.yaml'
-diffusion_model = unit_test_create_model(config_path)
-diffusion_model = diffusion_model.to('cuda')
+# config_path = 'configs/instruct_v2v_ic_gradio.yaml'
+# diffusion_model = unit_test_create_model(config_path)
+# diffusion_model = diffusion_model.to('cuda')
 
-# 加载模型检查点
-# ckpt_path = 'models/relvid_mm_sd15_fbc_unet.pth' #! change
-# ckpt_path = 'tmp/pytorch_model.bin'
-# 下载文件
+# # 加载模型检查点
+# # ckpt_path = 'models/relvid_mm_sd15_fbc_unet.pth' #! change
+# # ckpt_path = 'tmp/pytorch_model.bin'
+# # 下载文件
 
-os.makedirs('models', exist_ok=True)
-model_path = "models/relvid_mm_sd15_fbc_unet.pth"
+# os.makedirs('models', exist_ok=True)
+# model_path = "models/relvid_mm_sd15_fbc_unet.pth"
 
-if not os.path.exists(model_path):
-    download_url_to_file(url='https://huggingface.co/aleafy/RelightVid/resolve/main/relvid_mm_sd15_fbc_unet.pth', dst=model_path)
+# if not os.path.exists(model_path):
+#     download_url_to_file(url='https://huggingface.co/aleafy/RelightVid/resolve/main/relvid_mm_sd15_fbc_unet.pth', dst=model_path)
 
 
-ckpt = torch.load(model_path, map_location='cpu')
-diffusion_model.load_state_dict(ckpt, strict=False)
+# ckpt = torch.load(model_path, map_location='cpu')
+# diffusion_model.load_state_dict(ckpt, strict=False)
 
 
 # import pdb; pdb.set_trace()
@@ -367,14 +367,14 @@ quick_prompts = [[x] for x in quick_prompts]
 # }
 # """
 
-css = """
-    #prompt-box, #bg-source, #quick-list, #relight-btn {
-    width: 750px !important;
-}
-"""
+# css = """
+#     #prompt-box, #bg-source, #quick-list, #relight-btn {
+#     width: 750px !important;
+# }
+# """
 
 # Gradio UI 结构
-block = gr.Blocks(css=css).queue()
+block = gr.Blocks().queue()
 with block:
     with gr.Row():
         # gr.Markdown("## RelightVid (Relighting with Foreground and Background Video Condition)")
@@ -416,17 +416,16 @@ with block:
             #     normal_button = gr.Button(value="Compute Normal (4x Slower)")
 
         with gr.Column():
-            result_video = gr.Video(label='Output Video', height=750, width=750, visible=True)
+            result_video = gr.Video(label='Output Video', height=750, visible=True)
 
-            prompt = gr.Textbox(label="Prompt", elem_id="prompt-box")  
+            prompt = gr.Textbox(label="Prompt")  
             bg_source = gr.Radio(choices=[e.value for e in BGSource],
                                 value=BGSource.UPLOAD.value,
                                 label="Background Source",
-                                type='value',
-                                elem_id="bg-source")
+                                type='value')
 
-            example_prompts = gr.Dataset(samples=quick_prompts, label='Prompt Quick List', components=[prompt], elem_id="quick-list")
-            relight_button = gr.Button(value="Relight", elem_id="relight-btn")
+            example_prompts = gr.Dataset(samples=quick_prompts, label='Prompt Quick List', components=[prompt])
+            relight_button = gr.Button(value="Relight")
 
             # prompt = gr.Textbox(label="Prompt")
             # bg_source = gr.Radio(choices=[e.value for e in BGSource],
