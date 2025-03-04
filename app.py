@@ -216,12 +216,12 @@ def save_video_from_frames(image_pred, save_pth, fps=8):
     out.release()
     print(f"视频已保存至 {save_pth}")
 
-
-inf_pipe = InferenceIP2PVideo(
-        diffusion_model.unet, 
-        scheduler='ddpm',
-        num_ddim_steps=20
-    )
+#! model
+# inf_pipe = InferenceIP2PVideo(
+#         diffusion_model.unet, 
+#         scheduler='ddpm',
+#         num_ddim_steps=20
+#     )
 
 
 def process_example(*args):
