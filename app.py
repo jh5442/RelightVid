@@ -367,8 +367,14 @@ quick_prompts = [[x] for x in quick_prompts]
 # }
 # """
 
+css = """
+    #prompt-box, #bg-source, #quick-list, #relight-btn {
+    width: 750px !important;
+}
+"""
+
 # Gradio UI 结构
-block = gr.Blocks().queue()
+block = gr.Blocks(css=css).queue()
 with block:
     with gr.Row():
         # gr.Markdown("## RelightVid (Relighting with Foreground and Background Video Condition)")
@@ -410,15 +416,25 @@ with block:
             #     normal_button = gr.Button(value="Compute Normal (4x Slower)")
 
         with gr.Column():
-            result_video = gr.Video(label='Output Video', height=700, width=700, visible=True)
+            result_video = gr.Video(label='Output Video', height=750, width=750, visible=True)
 
-            prompt = gr.Textbox(label="Prompt")
+            prompt = gr.Textbox(label="Prompt", elem_id="prompt-box")  
             bg_source = gr.Radio(choices=[e.value for e in BGSource],
                                 value=BGSource.UPLOAD.value,
-                                label="Background Source", type='value')
+                                label="Background Source",
+                                type='value',
+                                elem_id="bg-source")
 
-            example_prompts = gr.Dataset(samples=quick_prompts, label='Prompt Quick List', components=[prompt])
-            relight_button = gr.Button(value="Relight")
+            example_prompts = gr.Dataset(samples=quick_prompts, label='Prompt Quick List', components=[prompt], elem_id="quick-list")
+            relight_button = gr.Button(value="Relight", elem_id="relight-btn")
+
+            # prompt = gr.Textbox(label="Prompt")
+            # bg_source = gr.Radio(choices=[e.value for e in BGSource],
+            #                     value=BGSource.UPLOAD.value,
+            #                     label="Background Source", type='value')
+
+            # example_prompts = gr.Dataset(samples=quick_prompts, label='Prompt Quick List', components=[prompt])
+            # relight_button = gr.Button(value="Relight")
             # fg_gallery = gr.Gallery(witdth=400, object_fit='contain', label='Foreground Quick List', value=db_examples.bg_samples, columns=4, allow_preview=False)
             # fg_gallery = gr.Gallery(
             #     height=380, 
