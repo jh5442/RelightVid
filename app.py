@@ -5,7 +5,6 @@ from enum import Enum
 import db_examples
 import cv2
 
-import spaces
 
 from demo_utils1 import *
 
@@ -24,6 +23,7 @@ from torchvision.transforms import functional as F
 from torch.hub import download_url_to_file
 
 import os
+import spaces
 
 # 推理设置
 from pl_trainer.inference.inference import InferenceIP2PVideo
@@ -224,9 +224,28 @@ inf_pipe = InferenceIP2PVideo(
         num_ddim_steps=20
     )
 
+
+def process_example(*args):
+    v_index = args[0]
+    select_e = db_examples.background_conditioned_examples[int(v_index)-1]
+    input_fg_path = select_e[1]
+    input_bg_path = select_e[2]
+    result_video_path = select_e[-1]
+    # input_fg_img = args[1]  # 第 0 个参数
+    # input_bg_img = args[2]  # 第 1 个参数
+    # result_video_img = args[-1]  # 最后一个参数
+    
+    input_fg = input_fg_path.replace("frames/0000.png", "cropped_video.mp4")
+    input_bg = input_bg_path.replace("frames/0000.png", "cropped_video.mp4")
+    result_video = result_video_path.replace(".png", ".mp4")
+    
+    return input_fg, input_bg, result_video
+
+
+
 # 伪函数占位（生成空白视频）
 @spaces.GPU
-def dummy_process(input_fg, input_bg):
+def dummy_process(input_fg, input_bg, prompt):
     # import pdb; pdb.set_trace()
 
     diffusion_model.to(torch.float16)
@@ -240,7 +259,8 @@ def dummy_process(input_fg, input_bg):
     # 初始化潜变量
     init_latent = torch.randn_like(cond_fg_tensor)    
 
-    EDIT_PROMPT = 'change the background'
+    # EDIT_PROMPT = 'change the background'
+    EDIT_PROMPT = prompt
     VIDEO_CFG = 1.2
     TEXT_CFG = 7.5
     text_cond = diffusion_model.encode_text([EDIT_PROMPT])  # (1, 77, 768)
@@ -295,13 +315,35 @@ def dummy_process(input_fg, input_bg):
 class BGSource(Enum):
     UPLOAD = "Use Background Video"
     UPLOAD_FLIP = "Use Flipped Background Video"
-    LEFT = "Left Light"
-    RIGHT = "Right Light"
-    TOP = "Top Light"
-    BOTTOM = "Bottom Light"
-    GREY = "Ambient"
+    UPLOAD_REVERSE = "Use Reversed Background Video"
+
 
 # Quick prompts 示例
+# quick_prompts = [
+#     'beautiful woman, fantasy setting',
+#     'beautiful woman, neon dynamic lighting',
+#     'man in suit, tunel lighting',
+#     'animated mouse, aesthetic lighting',
+#     'robot warrior, a sunset background',
+#     'yellow cat, reflective wet beach',
+#     'camera, dock, calm sunset',
+#     'astronaut, dim lighting',
+#     'astronaut, colorful balloons',
+#     'astronaut, desert landscape'
+# ]
+
+# quick_prompts = [
+#     'beautiful woman',
+#     'handsome man',
+#     'beautiful woman, cinematic lighting',
+#     'handsome man, cinematic lighting',
+#     'beautiful woman, natural lighting',
+#     'handsome man, natural lighting',
+#     'beautiful woman, neo punk lighting, cyberpunk',
+#     'handsome man, neo punk lighting, cyberpunk',
+# ]
+
+
 quick_prompts = [
     'beautiful woman',
     'handsome man',
@@ -309,62 +351,96 @@ quick_prompts = [
     'handsome man, cinematic lighting',
     'beautiful woman, natural lighting',
     'handsome man, natural lighting',
-    'beautiful woman, neo punk lighting, cyberpunk',
-    'handsome man, neo punk lighting, cyberpunk',
+    'beautiful woman, warm lighting',
+    'handsome man, soft lighting',
+    'change the background lighting',
 ]
+
+
 quick_prompts = [[x] for x in quick_prompts]
+
+# css = """
+# #foreground-gallery {
+#     width: 700 !important; /* 限制最大宽度 */
+#     max-width: 700px !important; /* 避免它自动变宽 */
+#     flex: none !important; /* 让它不自动扩展 */
+# }
+# """
 
 # Gradio UI 结构
 block = gr.Blocks().queue()
 with block:
     with gr.Row():
-        gr.Markdown("## IC-Light (Relighting with Foreground and Background Video Condition)")
+        # gr.Markdown("## RelightVid (Relighting with Foreground and Background Video Condition)")
+        gr.Markdown("# 💡RelightVid  \n### Relighting with Foreground and Background Video Condition")
 
     with gr.Row():
         with gr.Column():
             with gr.Row():
-                input_fg = gr.Video(label="Foreground Video", height=370, width=370, visible=True)
-                input_bg = gr.Video(label="Background Video", height=370, width=370, visible=True)
+                input_fg = gr.Video(label="Foreground Video", height=380, width=420, visible=True)
+                input_bg = gr.Video(label="Background Video", height=380, width=420, visible=True)
+            
+            segment_button = gr.Button(value="Video Segmentation")
+            with gr.Accordion("Segmentation Options", open=False):
+                # 如果用户不使用 point_prompt，而是直接提供坐标，则使用 x, y
+                with gr.Row():
+                    x_coord = gr.Slider(label="X Coordinate (Point Prompt Ratio)", minimum=0.0, maximum=1.0, value=0.5, step=0.01)
+                    y_coord = gr.Slider(label="Y Coordinate (Point Prompt Ratio)", minimum=0.0, maximum=1.0, value=0.5, step=0.01)
+                        
+
+            fg_gallery = gr.Gallery(height=150, object_fit='contain', label='Foreground Quick List', value=db_examples.fg_samples, columns=5, allow_preview=False)
+            bg_gallery = gr.Gallery(height=450, object_fit='contain', label='Background Quick List', value=db_examples.bg_samples, columns=5, allow_preview=False)
+            
+
+            with gr.Group():
+            #     with gr.Row():
+            #         num_samples = gr.Slider(label="Videos", minimum=1, maximum=12, value=1, step=1)
+            #         seed = gr.Number(label="Seed", value=12345, precision=0)
+                with gr.Row():
+                    video_width = gr.Slider(label="Video Width", minimum=256, maximum=1024, value=512, step=64, visible=False)
+                    video_height = gr.Slider(label="Video Height", minimum=256, maximum=1024, value=512, step=64, visible=False)
+
+            # with gr.Accordion("Advanced options", open=False):
+            #     steps = gr.Slider(label="Steps", minimum=1, maximum=100, value=20, step=1)
+            #     cfg = gr.Slider(label="CFG Scale", minimum=1.0, maximum=32.0, value=7.0, step=0.01)
+            #     highres_scale = gr.Slider(label="Highres Scale", minimum=1.0, maximum=3.0, value=1.5, step=0.01)
+            #     highres_denoise = gr.Slider(label="Highres Denoise", minimum=0.1, maximum=0.9, value=0.5, step=0.01)
+            #     a_prompt = gr.Textbox(label="Added Prompt", value='best quality')
+            #     n_prompt = gr.Textbox(label="Negative Prompt", value='lowres, bad anatomy, bad hands, cropped, worst quality')
+            #     normal_button = gr.Button(value="Compute Normal (4x Slower)")
+
+        with gr.Column():
+            result_video = gr.Video(label='Output Video', height=700, width=700, visible=True)
 
             prompt = gr.Textbox(label="Prompt")
             bg_source = gr.Radio(choices=[e.value for e in BGSource],
-                                 value=BGSource.UPLOAD.value,
-                                 label="Background Source", type='value')
+                                value=BGSource.UPLOAD.value,
+                                label="Background Source", type='value')
 
             example_prompts = gr.Dataset(samples=quick_prompts, label='Prompt Quick List', components=[prompt])
-            bg_gallery = gr.Gallery(height=450, object_fit='contain', label='Background Quick List', value=db_examples.bg_samples, columns=5, allow_preview=False)
             relight_button = gr.Button(value="Relight")
+            # fg_gallery = gr.Gallery(witdth=400, object_fit='contain', label='Foreground Quick List', value=db_examples.bg_samples, columns=4, allow_preview=False)
+            # fg_gallery = gr.Gallery(
+            #     height=380, 
+            #     object_fit='contain', 
+            #     label='Foreground Quick List', 
+            #     value=db_examples.fg_samples, 
+            #     columns=4, 
+            #     allow_preview=False,
+            #     elem_id="foreground-gallery"  # 👈 添加 elem_id
+            # )
 
-            with gr.Group():
-                with gr.Row():
-                    num_samples = gr.Slider(label="Videos", minimum=1, maximum=12, value=1, step=1)
-                    seed = gr.Number(label="Seed", value=12345, precision=0)
-                with gr.Row():
-                    video_width = gr.Slider(label="Video Width", minimum=256, maximum=1024, value=512, step=64)
-                    video_height = gr.Slider(label="Video Height", minimum=256, maximum=1024, value=640, step=64)
-
-            with gr.Accordion("Advanced options", open=False):
-                steps = gr.Slider(label="Steps", minimum=1, maximum=100, value=20, step=1)
-                cfg = gr.Slider(label="CFG Scale", minimum=1.0, maximum=32.0, value=7.0, step=0.01)
-                highres_scale = gr.Slider(label="Highres Scale", minimum=1.0, maximum=3.0, value=1.5, step=0.01)
-                highres_denoise = gr.Slider(label="Highres Denoise", minimum=0.1, maximum=0.9, value=0.5, step=0.01)
-                a_prompt = gr.Textbox(label="Added Prompt", value='best quality')
-                n_prompt = gr.Textbox(label="Negative Prompt", value='lowres, bad anatomy, bad hands, cropped, worst quality')
-                normal_button = gr.Button(value="Compute Normal (4x Slower)")
-
-        with gr.Column():
-            result_video = gr.Video(label='Output Video', height=600, width=600, visible=True)
 
     # 输入列表
     # ips = [input_fg, input_bg, prompt, video_width, video_height, num_samples, seed, steps, a_prompt, n_prompt, cfg, highres_scale, highres_denoise, bg_source]
-    ips = [input_fg, input_bg]
+    ips = [input_fg, input_bg, prompt]
 
     # 按钮绑定处理函数
     # relight_button.click(fn=lambda: None, inputs=[], outputs=[result_video])
 
     relight_button.click(fn=dummy_process, inputs=ips, outputs=[result_video])
     
-    normal_button.click(fn=dummy_process, inputs=ips, outputs=[result_video])
+    # normal_button.click(fn=dummy_process, inputs=ips, outputs=[result_video])
 
     # 背景库选择
     def bg_gallery_selected(gal, evt: gr.SelectData):
@@ -376,13 +452,31 @@ with block:
 
     bg_gallery.select(bg_gallery_selected, inputs=bg_gallery, outputs=input_bg)
 
+    def fg_gallery_selected(gal, evt: gr.SelectData):
+        # import pdb; pdb.set_trace()
+        # img_path = gal[evt.index][0]
+        img_path = db_examples.fg_samples[evt.index]
+        video_path = img_path.replace('frames/0000.png', 'cropped_video.mp4')
+        return video_path
+
+    fg_gallery.select(fg_gallery_selected, inputs=fg_gallery, outputs=input_fg)
+
+    input_fg_img = gr.Image(label="Foreground Video", visible=False)
+    input_bg_img = gr.Image(label="Background Video", visible=False)
+    result_video_img = gr.Image(label="Output Video", visible=False)
+
+    v_index = gr.Textbox(label="ID", visible=False)
+    example_prompts.click(lambda x: x[0], inputs=example_prompts, outputs=prompt, show_progress=False, queue=False)
+
     # 示例
     # dummy_video_for_outputs = gr.Video(visible=False, label='Result')
     gr.Examples(
-        fn=lambda *args: args[-1],
+        # fn=lambda *args: args[-1],
+        fn=process_example,
         examples=db_examples.background_conditioned_examples,
-        inputs=[input_fg, input_bg, prompt, bg_source, video_width, video_height, seed, result_video],
-        outputs=[result_video],
+        # inputs=[v_index, input_fg_img, input_bg_img, prompt, bg_source, video_width, video_height, result_video_img],
+        inputs=[v_index, input_fg_img, input_bg_img, prompt, bg_source, result_video_img],
+        outputs=[input_fg, input_bg, result_video],
         run_on_click=True, examples_per_page=1024
     )
 
