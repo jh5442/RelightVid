@@ -346,7 +346,7 @@ class BGSource(Enum):
 quick_prompts = [
     'beautiful woman',
     'handsome man',
-    'beautiful woman, cinematic lighting',
+    # 'beautiful woman, cinematic lighting',
     'handsome man, cinematic lighting',
     'beautiful woman, natural lighting',
     'handsome man, natural lighting',
