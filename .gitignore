@@ -11,3 +11,4 @@ db_examples.py
 demo
 static_fg_sync_bg_visualization_fy
 .gitattributes
+__pycache__
