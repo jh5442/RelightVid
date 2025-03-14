@@ -67,55 +67,21 @@ detailed descriptions readily for MLLMs to look up and assign.
    conda create -n relitv python=3.10 
    conda activate relitv
    
-   pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu118
    pip install -r requirements.txt
    ```
 
 
 
 
-
-## 📦 Data Preparation
- 1. **Annotations**: in `data/material_lib/annotations` [folder](data/material_lib/annotations), include:
-    - Highly-detailed descriptions by GPT-4V: offering thorough descriptions of the material’s visual characteristics and rich semantic information.
-    - Category-tree: Divided into a hierarchical structure with coarse and fine granularity, it includes over 80 subcategories.
- 2. **PBR Maps**: You can download the complete PBR data collection at [Huggingface](https://huggingface.co/datasets/gvecchio/MatSynth/tree/main), or download the data used in our project at [OpenXLab](https://openxlab.org.cn/datasets/YeFang/MatSynth/tree/main) (Recommended). (If you have any questions, please refer to [issue#5](https://github.com/Aleafy/Make_it_Real/issues/5))
- 3. **Material Images(optinal)**: You can download the material images file [here](https://drive.google.com/file/d/1ob7CV6JiaqFyjuCzlmSnBuNRkzt2qMSG/view?usp=sharing), to check and visualize the material appearance.
-
-<pre>
-Make_it_Real
-└── data
-    └── material_lib
-        ├── annotations
-        ├── mat_images
-        └── pbr_maps
-            └── train
-                ├── Ceremic
-                ├── Concrete
-                ├── ...
-                └── Wood
-</pre>
-
-
-
 ## ⚡ Quick Start
-#### Inference
+#### Background-conditioned illumination control
+<!-- #### Perform video relighting with customized background condition -->
 ```bash
 python main.py --obj_dir <object_dir> --exp_name <unique_exp_name> --api_key <your_own_gpt4_api_key>
 ```
 - To ensure proper network connectivity for GPT-4V, add proxy environment settings in [main.py](https://github.com/Aleafy/Make_it_Real/blob/feb3563d57fbe18abbff8d4abfb48f71cc8f967b/main.py#L18) (optional). Also, please verify the reachability of your [API host](https://github.com/Aleafy/Make_it_Real/blob/feb3563d57fbe18abbff8d4abfb48f71cc8f967b/utils/gpt4_query.py#L68).
 - Result visualization (blender engine) is located in the `output/refine_output` dir. You can compare the result with that in `output/ori_output`. 
 
-#### Annotation Engine
-
-```bash
-cd scripts/gpt_anno
-python gpt4_query_mat.py
-```
-`Note`: Besides functinoning as annotation engine, you can also use this code ([gpt4_query_mat.py](https://github.com/Aleafy/Make_it_Real/blob/main/scripts/gpt_anno/gpt4_query_mat.py)) to test the GPT-4V connection simply.
-
-<!-- [annotation code](scripts/gpt_anno) -->
-<!-- #### Evalutation -->
 
 
 

@@ -2,3 +2,7 @@ demo_utils1.py
 tmp
 models
 stablediffusionapi
+output
+assets
+masks_animatediff
+.gradio
