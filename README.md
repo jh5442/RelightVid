@@ -1,13 +1,3 @@
----
-title: "RelightVid"
-emoji: "💡"
-colorFrom: "blue"
-colorTo: "green"
-sdk: "gradio"  # 你的项目使用的 SDK (gradio / streamlit / docker)
-app_file: "app.py"  # 你的主程序文件
----
-
-
 <!-- # <img src="assets/icon.png" style="vertical-align: -14px;" :height="50px" width="50px"> RelightVid -->
 # RelightVid
 

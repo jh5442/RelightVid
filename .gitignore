@@ -6,3 +6,6 @@ output
 assets
 masks_animatediff
 .gradio
+app.py
+db_examples.py
+demo
