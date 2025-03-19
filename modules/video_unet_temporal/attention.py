@@ -7,7 +7,7 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 from torch import einsum
-from misc_utils.model_utils import default, exists
+from utils.model_utils import default, exists
 
 from diffusers.configuration_utils import ConfigMixin, register_to_config
 from diffusers.models.modeling_utils import ModelMixin

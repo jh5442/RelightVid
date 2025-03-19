@@ -8,7 +8,7 @@ from taming.modules.vqvae.quantize import VectorQuantizer2 as VectorQuantizer
 
 from .model import Encoder, Decoder
 
-from misc_utils.model_utils import instantiate_from_config
+from utils.model_utils import instantiate_from_config
 
 
 class VQModel(pl.LightningModule):

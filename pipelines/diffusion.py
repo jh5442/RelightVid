@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 import pytorch_lightning as pl
-from misc_utils.model_utils import default, instantiate_from_config
+from utils.model_utils import default, instantiate_from_config
 from diffusers import DDPMScheduler
 
 from safetensors.torch import load_file
@@ -27,7 +27,6 @@ class DDPM(pl.LightningModule):
         prediction_type='epsilon', 
         loss_fn='l2',
         optim_args={},
-        base_path=None,
         **kwargs
     ):
         '''
@@ -43,7 +42,6 @@ class DDPM(pl.LightningModule):
         self.num_timesteps = beta_schedule_args['num_train_timesteps']
         self.optim_args = optim_args
         self.loss = loss_fn
-        self.base_path = base_path
         if loss_fn == 'l2' or loss_fn == 'mse':
             self.loss_fn = nn.MSELoss(reduction='none')
         elif loss_fn == 'l1' or loss_fn == 'mae':
@@ -81,7 +79,7 @@ class DDPM(pl.LightningModule):
         '''predict x_{t-1} from x_t and model_output'''
         return self.scheduler.step(model_output, t, x_t).prev_sample
 
-class DDPMTraining(DDPM): # 加入training step保证训练等等
+class DDPMTraining(DDPM): 
     def __init__(
         self, 
         unet, 
@@ -92,7 +90,7 @@ class DDPMTraining(DDPM): # 加入training step保证训练等等
             'lr': 1e-3,
             'weight_decay': 5e-4
         },
-        log_args={}, # for record all arguments with self.save_hyperparameters
+        log_args={}, 
         ddim_sampling_steps=20,
         guidance_scale=5.,
         **kwargs
@@ -160,9 +158,8 @@ class DDPMTraining(DDPM): # 加入training step保证训练等等
 
         return loss
     
-    def get_hdr_loss(self, fg_mask, pred, pred_combine): # fg_mask: 1,16,4,64,64   都是这个维度
-        # import pdb; pdb.set_trace() #todo 打印维度, 查看是否有问题
-        loss_raw = self.loss_fn(pred, pred_combine) #(1,16,4,64,64)
+    def get_hdr_loss(self, fg_mask, pred, pred_combine):
+        loss_raw = self.loss_fn(pred, pred_combine) 
         masked_loss = fg_mask * loss_raw
         loss_flat = mean_flat(masked_loss)
 
@@ -221,37 +218,21 @@ class DDPMTraining(DDPM): # 加入training step保证训练等等
         optimizer = torch.optim.Adam(self.parameters(), **self.optim_args)
         return optimizer
 
-class DDPMLDMTraining(DDPMTraining): # 加入潜变量, LDM 即在latent层面上来做
+class DDPMLDMTraining(DDPMTraining): 
     def __init__(
         self, *args,
         vae,
-        unet_init_weights=None,
-        vae_init_weights=None,
+        sd_path=None,
+        iclight_path=None,
+        relvid_mm_path=None,
         scale_factor=0.18215,
+        ic_channels=4,
         **kwargs
     ):
         super().__init__(*args, **kwargs)
         self.vae = vae
         self.scale_factor = scale_factor
-        self.initialize_unet(unet_init_weights) 
-        self.initialize_vqvae(vae_init_weights) # 这边可以把这个设为none(config文件里面)
-
-    def initialize_unet(self, unet_init_weights):
-        if unet_init_weights is not None:
-            print(f'INFO: initialize denoising UNet from {unet_init_weights}')
-            sd = torch.load(unet_init_weights, map_location='cpu')
-            self.unet.load_state_dict(sd)
-
-    def initialize_vqvae(self, vqvae_init_weights): # 这边vae load最后调用就是这个init函数
-        if vqvae_init_weights is not None:
-            print(f'INFO: initialize VQVAE from {vqvae_init_weights}')
-            if '.safetensors' in vqvae_init_weights:
-                sd = load_file(vqvae_init_weights)
-            else:
-                sd = torch.load(vqvae_init_weights, map_location='cpu')
-            self.vae.load_state_dict(sd)
-        for param in self.vae.parameters():
-            param.requires_grad = False # vae 也是冻住参数的
+        self.initialize_unet(sd_path, iclight_path, relvid_mm_path, ic_channels) 
 
     def call_save_hyperparameters(self):
         '''write in a separate function so that the inherit class can overwrite it'''
@@ -259,12 +240,11 @@ class DDPMLDMTraining(DDPMTraining): # 加入潜变量, LDM 即在latent层面�
 
     @torch.no_grad()
     def encode_image_to_latent(self, x):
-        #return self.vae.encode(x) * self.scale_factor #! change 
         return self.vae.encode(x).latent_dist.mean * self.scale_factor
 
     @torch.no_grad()
     def decode_latent_to_image(self, x):
-        x = x / self.scale_factor # 注意一下这个东西出现 必须要一致 sample乘以了, 这边就得除以
+        x = x / self.scale_factor 
         return self.vae.decode(x)
 
     def process_batch(self, x_0, mode):
@@ -277,7 +257,7 @@ class DDPMLDMTraining(DDPMTraining): # 加入潜变量, LDM 即在latent层面�
         res_dict['x_0_hat'] = self.decode_latent_to_image(res_dict['x_0_hat'])
         return res_dict
 
-class DDIMLDMTextTraining(DDPMLDMTraining): # 加入text encoder以及文本编码进行条件生成；+改成DDIM 训练
+class DDIMLDMTextTraining(DDPMLDMTraining): 
     def __init__(
         self, *args,
         text_model,
@@ -288,15 +268,15 @@ class DDIMLDMTextTraining(DDPMLDMTraining): # 加入text encoder以及文本编�
             *args, **kwargs
         )
         self.text_model = text_model
-        self.initialize_text_model(text_model_init_weights) #! 这个也可以不要, 直接设置weights=None
+        self.initialize_text_model(text_model_init_weights) 
 
-    def initialize_text_model(self, text_model_init_weights): # 这边text model最后调用就是这个init函数
+    def initialize_text_model(self, text_model_init_weights): 
         if text_model_init_weights is not None:
             print(f'INFO: initialize text model from {text_model_init_weights}')
             sd = torch.load(text_model_init_weights, map_location='cpu')
             self.text_model.load_state_dict(sd)
         for param in self.text_model.parameters():
-            param.requires_grad = False # 这边设置了text model不回传梯度
+            param.requires_grad = False 
 
     def call_save_hyperparameters(self):
         '''write in a separate function so that the inherit class can overwrite it'''

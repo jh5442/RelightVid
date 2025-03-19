@@ -95,16 +95,17 @@ class FrozenCLIPEmbedder(AbstractEncoder):
         "hidden"
     ]
     def __init__(self, version="openai/clip-vit-large-patch14", device="cuda", max_length=77,
-                 freeze=True, layer="last", layer_idx=None, base_path=None, inference=False):  # clip-vit-base-patch32
+                 freeze=True, layer="last", layer_idx=None, sd_path=None, inference=False):  # clip-vit-base-patch32
         super().__init__()
         assert layer in self.LAYERS
         
-        if base_path:
-            self.tokenizer = CLIPTokenizer.from_pretrained(base_path, subfolder='tokenizer')
-            self.transformer = CLIPTextModel.from_pretrained(base_path, subfolder='text_encoder')
+        if sd_path:
+            self.tokenizer = CLIPTokenizer.from_pretrained(sd_path, subfolder='tokenizer')
+            self.transformer = CLIPTextModel.from_pretrained(sd_path, subfolder='text_encoder')
         else:
             self.tokenizer = CLIPTokenizer.from_pretrained(version)
             self.transformer = CLIPTextModel.from_pretrained(version)
+
         self.device = device
         self.max_length = max_length
         if freeze:

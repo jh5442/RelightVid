@@ -1,5 +1,5 @@
 diffusion:
-  target: pl_trainer.instruct_p2p_video.InstructP2PVideoTrainerTemporalText
+  target: pipelines.relightvid.RelightVidBGConditioner
   params:
     beta_schedule_args:
       beta_schedule: scaled_linear
@@ -8,28 +8,16 @@ diffusion:
       beta_end: 0.012
       clip_sample: false
       thresholding: false
-    prediction_type: epsilon
-    loss_fn: l2
-    optim_args:
-      lr: 1e-5
-    unet_init_weights: #! 注意一下, 完全可以从iv2v的ckpt开始train
-      - unet/diffusion_pytorch_model.safetensors # iclight, unet, sf tensor
-      - pretrained_models/Motion_Module/mm_sd_v15.ckpt # motion module, 推测加载的是animatediff的
-      - pretrained_models/iclight/iclight_sd15_fc.safetensors # iclight lora weights
-    base_path: /mnt/petrelfs/fangye/.cache/huggingface/hub/models--stablediffusionapi--realistic-vision-v51/snapshots/19e3643d7d963c156d01537188ec08f0b79a514a
-    # vae_init_weights: pretrained_models/instruct_pix2pix/vqvae.ckpt
-    # text_model_init_weights: pretrained_models/instruct_pix2pix/text.ckpt #! 这两个可以直接设为None, 从from_pretrained中加载
+    sd_path: models/realistic-vision-v51
+    iclight_path: models/iclight_sd15_fbc.safetensors
+    relvid_mm_path: models/relvid_mm_sd15_fbc.pth
+    ic_channels: 12
     scale_factor: 0.18215
-    guidance_scale: 5 # not used
     ddim_sampling_steps: 20
-    text_cfg: 7.5
-    img_cfg: 1.2
-    cond_image_dropout: 0.1
-    prompt_type: edit_prompt
 unet:
   target: modules.video_unet_temporal.unet.UNet3DConditionModel
   params:
-    in_channels: 4 #! change:8->12 iclight 改为12 注意一下...
+    in_channels: 4 
     out_channels: 4
     act_fn: silu
     attention_head_dim: 8
@@ -55,7 +43,7 @@ unet:
     norm_eps: 1e-05
     norm_num_groups: 32
     sample_size: 64
-    use_motion_module: true #!!! 这边test iclight的时候可以不用motion module 即False
+    use_motion_module: true 
     motion_module_resolutions:
     - 1
     - 2

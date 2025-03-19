@@ -5,7 +5,7 @@ import numpy as np
 
 from modules.vqvae.model import Encoder, Decoder
 
-from misc_utils.model_utils import instantiate_from_config
+from utils.model_utils import instantiate_from_config
 
 class DiagonalGaussianDistribution(object):
     def __init__(self, parameters, deterministic=False):
