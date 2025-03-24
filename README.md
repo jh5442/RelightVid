@@ -1,4 +1,4 @@
-# <img src="media/icon1.png" style="vertical-align: -18px;" :height="40px" width="40px"> RelightVid
+# <img src="media/icon2.png" style="vertical-align: -18px;" :height="40px" width="40px"> RelightVid
 <!-- # RelightVid -->
 
 **[RelightVid: Temporal-Consistent Diffusion Model for Video Relighting](https://arxiv.org/abs/2501.16330)**
