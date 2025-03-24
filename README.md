@@ -93,7 +93,7 @@ You can download all the models through [here]().
  2. **PBR Maps**: You can download the complete PBR data collection at [Huggingface](https://huggingface.co/datasets/gvecchio/MatSynth/tree/main), or download the data used in our project at [OpenXLab](https://openxlab.org.cn/datasets/YeFang/MatSynth/tree/main) (Recommended). (If you have any questions, please refer to [issue#5](https://github.com/Aleafy/Make_it_Real/issues/5))
  3. **Material Images(optinal)**: You can download the material images file [here](https://drive.google.com/file/d/1ob7CV6JiaqFyjuCzlmSnBuNRkzt2qMSG/view?usp=sharing), to check and visualize the material appearance. -->
 
-<pre>
+<!-- <pre>
 RelightVid
 └── models
     └── realistic-vision-v51                              // stable diffusion base model
@@ -112,6 +112,28 @@ RelightVid
             └── diffusion_pytorch_model.safetensors
     └── iclight_sd15_fbc.safetensors                      // ic-light weights
     └── relvid_mm_sd15_fbc.pth                            // relightvid motion weights
+</pre> -->
+
+
+<pre>
+RelightVid
+├── models
+│   ├── realistic-vision-v51                              // stable diffusion base model
+│   │   ├── text_encoder
+│   │   │   ├── config.json
+│   │   │   └── model.safetensors
+│   │   ├── tokenizer
+│   │   │   ├── merges.txt
+│   │   │   ├── special_tokens_map.json
+│   │   │   ├── tokenizer_config.json
+│   │   │   └── vocab.json
+│   │   ├── unet
+│   │   │   └── diffusion_pytorch_model.safetensors
+│   │   ├── vae
+│   │   │   ├── config.json
+│   │   │   └── diffusion_pytorch_model.safetensors
+│   ├── iclight_sd15_fbc.safetensors                      // ic-light weights
+│   ├── relvid_mm_sd15_fbc.pth                            // relightvid motion weights
 </pre>
 
 
