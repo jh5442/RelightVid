@@ -96,7 +96,7 @@ You can download all the models through [here]().
 <pre>
 RelightVid
 └── models
-    └── realistic-vision-v51 // stable diffusion base model
+    └── realistic-vision-v51                    // stable diffusion base model
         └── text_encoder
             ├── config.json
             └── model.safetensors
@@ -110,8 +110,8 @@ RelightVid
         └── vae
             ├── config.json
             └── diffusion_pytorch_model.safetensors
-    └── iclight_sd15_fbc.safetensors // ic-light weights
-    └── relvid_mm_sd15_fbc.pth   // relightvid motion weights
+    └── iclight_sd15_fbc.safetensors           // ic-light weights
+    └── relvid_mm_sd15_fbc.pth                 // relightvid motion weights
 </pre>
 
 
@@ -174,7 +174,7 @@ This work is under the <a rel="license" href="http://creativecommons.org/license
 
 ## 📚 Related Works
 - [AnimateDiff](https://github.com/guoyww/animatediff/): A text-to-video diffusion framework that extends image diffusion models with lightweight temporal modules for generating coherent and controllable animations.
-- [IC-Light](https://github.com/lllyasviel/IC-Light): A text-guided image editing framework that enables interactive and consistent lighting control using user-provided instructions.
-- [Relightful Harmonization](https://arxiv.org/abs/2312.06886): Draw visual cues on images to facilate GPT-4V query better.
-- [Switchlight](https://arxiv.org/pdf/2402.18848): Excellent exploration of material extraction and generation, offers good insights and comparable setting.
+- [IC-Light](https://github.com/lllyasviel/IC-Light):  enables intuitive lighting control in image generation by integrating editable illumination conditions into diffusion models.
+- [Relightful Harmonization](https://arxiv.org/abs/2312.06886): introduces a method for consistent subject relighting in diverse scenes using synthetic data and background guidance.
+- [Switchlight](https://arxiv.org/pdf/2402.18848): performs intrinsic decomposition of portraits into identity and lighting components, enabling flexible and realistic relighting through disentangled editing.
 
