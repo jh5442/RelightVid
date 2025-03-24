@@ -80,11 +80,11 @@
 
 
 ## 📦 Model Preparation
-To reproduce the results, please download the following models, and organize them according to the following directory structure:
+To reproduce the results, please download the following models ([IC-Light](https://huggingface.co/lllyasviel/ic-light/tree/main), [RealisticVision-v51](https://huggingface.co/stablediffusionapi/realistic-vision-v51/tree/main), [RelightVid](https://huggingface.co/aleafy/RelightVid/tree/main)), and organize them according to the following directory structure:
 
-- [IC-Light](https://huggingface.co/lllyasviel/ic-light/tree/main)
+<!-- - [IC-Light](https://huggingface.co/lllyasviel/ic-light/tree/main)
 - [RealisticVision-v51](https://huggingface.co/stablediffusionapi/realistic-vision-v51/tree/main)
-- [RelightVid](https://huggingface.co/aleafy/RelightVid/tree/main)
+- [RelightVid](https://huggingface.co/aleafy/RelightVid/tree/main) -->
 
 You can download all the models through [here]().
  <!-- 1. **Annotations**: in `data/material_lib/annotations` [folder](data/material_lib/annotations), include:
