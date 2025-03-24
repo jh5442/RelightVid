@@ -75,6 +75,7 @@
    conda create -n relitv python=3.10 
    conda activate relitv
    
+   pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu118
    pip install -r requirements.txt
    ```
 
