@@ -24,7 +24,7 @@
 </a>
 </p> -->
 
-<!-- 🌐 🧭 🏠 🌟-->
+<!-- 🌐 🧭 🏠 🌟 ⭐-->
 
 <div align="center" style="font-family: Arial, sans-serif;">
   <p>
@@ -57,8 +57,8 @@
 <!-- - 🔥 A comprehensive **LightAtlas** dataset is created, combining **real-world and 3D-rendered lighting pairs** to provide a rich foundation of illumination priors.  -->
 - 🔥 We propose **RelightVid**, a flexible framework for **realistic and temporally consistent video relighting** with excellent performance compared to existing baselines.  
 - 🔥 We build **LightAtlas**, a large-scale video dataset with **real-world and 3D-rendered lighting pairs** to provide rich illumination priors.  
-- ⭐ By incorporating **temporal layers**, the framework ensures strong **frame-to-frame consistency** while maintaining high-quality **relighting** throughout the video.  
-- ⭐ Supporting diverse inputs such as **text prompts, background videos, and HDR maps**, **RelightVid** allows for versatile and adaptive lighting manipulation across various video scenarios.
+- 🌟 By incorporating **temporal layers**, the framework ensures strong **frame-to-frame consistency** while maintaining high-quality **relighting** throughout the video.  
+- 🌟 Supporting diverse inputs such as **text prompts, background videos, and HDR maps**, **RelightVid** allows for versatile and adaptive lighting manipulation across various video scenarios.
 
 <!-- 
 ## 👨‍💻 Todo
