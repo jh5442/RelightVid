@@ -358,7 +358,7 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
             timesteps = timesteps[None].to(sample.device)
 
         # broadcast to batch dimension in a way that's compatible with ONNX/Core ML
-        # timesteps = timesteps.expand(sample.shape[0]) #! change
+        # timesteps = timesteps.expand(sample.shape[0])
         timesteps = timesteps.repeat(sample.shape[0] // timesteps.shape[0])
 
         t_emb = self.time_proj(timesteps)
@@ -438,40 +438,3 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
             return (sample,)
 
         return UNet3DConditionOutput(sample=sample)
-
-    # @classmethod
-    # def from_pretrained_2d(cls, pretrained_model_path, subfolder=None):
-    #     if subfolder is not None:
-    #         pretrained_model_path = os.path.join(pretrained_model_path, subfolder)
-
-    #     config_file = os.path.join(pretrained_model_path, 'config.json')
-    #     if not os.path.isfile(config_file):
-    #         raise RuntimeError(f"{config_file} does not exist")
-    #     with open(config_file, "r") as f:
-    #         config = json.load(f)
-    #     config["_class_name"] = cls.__name__
-    #     config["down_block_types"] = [
-    #         "CrossAttnDownBlock3D",
-    #         "CrossAttnDownBlock3D",
-    #         "CrossAttnDownBlock3D",
-    #         "DownBlock3D"
-    #     ]
-    #     config["up_block_types"] = [
-    #         "UpBlock3D",
-    #         "CrossAttnUpBlock3D",
-    #         "CrossAttnUpBlock3D",
-    #         "CrossAttnUpBlock3D"
-    #     ]
-
-    #     from diffusers.utils import WEIGHTS_NAME
-    #     model = cls.from_config(config)
-    #     model_file = os.path.join(pretrained_model_path, WEIGHTS_NAME)
-    #     if not os.path.isfile(model_file):
-    #         raise RuntimeError(f"{model_file} does not exist")
-    #     state_dict = torch.load(model_file, map_location="cpu")
-    #     for k, v in model.state_dict().items():
-    #         if '_temp.' in k:
-    #             state_dict.update({k: v})
-    #     model.load_state_dict(state_dict)
-
-    #     return model

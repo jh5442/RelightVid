@@ -7,11 +7,10 @@ import torch.nn.functional as F
 from einops import rearrange
 
 
-class InflatedConv3d(nn.Conv2d): # 这边是卷积的Inflate操作
+class InflatedConv3d(nn.Conv2d): 
     def forward(self, x):
         video_length = x.shape[2]
-        # 关于这里: f在第三维, 在整个输入unet之前就完全变成这个维度模式了
-        x = rearrange(x, "b c f h w -> (b f) c h w") # 这里还是蛮奇怪的，并不是所谓的2+1d, 而是直接rearrange输入
+        x = rearrange(x, "b c f h w -> (b f) c h w") 
         x = super().forward(x)
         x = rearrange(x, "(b f) c h w -> b c f h w", f=video_length)
 

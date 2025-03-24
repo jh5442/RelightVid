@@ -60,7 +60,7 @@ class DDPM(pl.LightningModule):
         noise = default(noise, torch.randn_like(x))
         return self.scheduler.add_noise(x, noise, t)
 
-    def predict_x_0_from_x_t(self, model_output: torch.Tensor, t: torch.LongTensor, x_t: torch.Tensor): # 这边是一个缓存值: predicted x0
+    def predict_x_0_from_x_t(self, model_output: torch.Tensor, t: torch.LongTensor, x_t: torch.Tensor): 
         ''' recover x_0 from predicted noise. Reverse of Eq(4) in DDPM paper
         \hat(x_0) = 1 / sqrt[\bar(a)]*x_t - sqrt[(1-\bar(a)) / \bar(a)]*noise'''
         # return self.scheduler.step(model_output, int(t), x_t).pred_original_sample
@@ -310,7 +310,7 @@ class DDIMLDMTextTraining(DDPMLDMTraining):
             y = y / 2 + 0.5
             plt.imshow(y)
         '''
-        from diffusers import DDIMScheduler # ddim训练
+        from diffusers import DDIMScheduler 
         scheduler = DDIMScheduler(**self.beta_schedule_args)
         scheduler.set_timesteps(self.ddim_sampling_steps)
         x_t = torch.randn(*image_shape, device=self.device)

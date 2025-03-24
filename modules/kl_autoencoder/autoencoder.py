@@ -90,9 +90,8 @@ class AutoencoderKL(pl.LightningModule):
         h = self.encoder(x)
         moments = self.quant_conv(h)
         posterior = DiagonalGaussianDistribution(moments)
-        # TODO check if need to put sample into DDIM_ldm class
         enc = posterior.sample()
-        return enc #posterior
+        return enc 
 
     def decode(self, z):
         z = self.post_quant_conv(z)

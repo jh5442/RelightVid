@@ -93,7 +93,6 @@ class Transformer3DModel(ModelMixin, ConfigMixin):
         assert hidden_states.dim() == 5, f"Expected hidden_states to have ndim=5, but got ndim={hidden_states.dim()}."
         video_length = hidden_states.shape[2]
         hidden_states = rearrange(hidden_states, "b c f h w -> (b f) c h w")
-        #! change下一行, 和hd的rmap concat
         hdr_latents = None
         if isinstance(encoder_hidden_states, dict):
             # print("encoder_hidden_states is a dictionary.")
@@ -102,14 +101,11 @@ class Transformer3DModel(ModelMixin, ConfigMixin):
                 hdr_latents = rearrange(hdr_latents, 'b f n c -> (b f) n c')
             if 'encoder_hidden_states' in encoder_hidden_states:
                 encoder_hidden_states = encoder_hidden_states['encoder_hidden_states']
-                # import pdb; pdb.set_trace()
 
-        encoder_hidden_states = repeat(encoder_hidden_states, 'b n c -> (b f) n c', f=video_length) #! original (16,77,768)
-        # import pdb; pdb.set_trace()
+        encoder_hidden_states = repeat(encoder_hidden_states, 'b n c -> (b f) n c', f=video_length) 
         if hdr_latents is not None:
-            encoder_hidden_states = torch.cat((encoder_hidden_states, hdr_latents), dim=1) #! change -> (16, 80, 768)    
+            encoder_hidden_states = torch.cat((encoder_hidden_states, hdr_latents), dim=1)  
         
-        # import pdb; pdb.set_trace()
         batch, channel, height, weight = hidden_states.shape
         residual = hidden_states
 

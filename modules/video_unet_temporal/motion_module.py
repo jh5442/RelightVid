@@ -136,7 +136,7 @@ class TemporalTransformer3DModel(nn.Module):
         hidden_states = self.norm(hidden_states)
         inner_dim = hidden_states.shape[1] # c
         hidden_states = hidden_states.permute(0, 2, 3, 1).reshape(batch, height * weight, inner_dim)
-        hidden_states = self.proj_in(hidden_states) # 这不还是在像素对像素的通道维做attn吗
+        hidden_states = self.proj_in(hidden_states) 
 
         # Transformer Blocks
         for block in self.transformer_blocks:
@@ -272,8 +272,7 @@ class VersatileAttention(Attention):
 
         if self.attention_mode == "Temporal":
             d = hidden_states.shape[1]
-            hidden_states = rearrange(hidden_states, "(b f) d c -> (b d) f c", f=video_length) # 这边做了一个reshape转换, 
-            # 终于是对帧与帧(bd, f, c)做attn了
+            hidden_states = rearrange(hidden_states, "(b f) d c -> (b d) f c", f=video_length) 
         
             if self.pos_encoder is not None:
                 hidden_states = self.pos_encoder(hidden_states, kwargs['video_start_index'])

@@ -66,9 +66,8 @@ if __name__ == "__main__":
     parser.add_argument("--mask", type=str, default="./assets/mask/woman")
     parser.add_argument("--bg_cond", type=str, default="./assets/video_bg/universe1.mp4")
     
-    # parser.add_argument("--model_path", type=str, default="models/relvid_mm_sd15_fbc_unet.pth") # todo change
     parser.add_argument("--config_path", type=str, default="configs/inference_fbc.yaml")
-    parser.add_argument("--output_path", type=str, default="output/test.mp4")
+    parser.add_argument("--output_path", type=str, default="output/woman_universe1.mp4")
     parser.add_argument("--prompt", type=str, default="change the background")
 
     args = parser.parse_args()
