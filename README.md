@@ -96,7 +96,7 @@ You can download all the models through [here]().
 <pre>
 RelightVid
 └── models
-    └── realistic-vision-v51                    // stable diffusion base model
+    └── realistic-vision-v51                              // stable diffusion base model
         └── text_encoder
             ├── config.json
             └── model.safetensors
@@ -110,8 +110,8 @@ RelightVid
         └── vae
             ├── config.json
             └── diffusion_pytorch_model.safetensors
-    └── iclight_sd15_fbc.safetensors           // ic-light weights
-    └── relvid_mm_sd15_fbc.pth                 // relightvid motion weights
+    └── iclight_sd15_fbc.safetensors                      // ic-light weights
+    └── relvid_mm_sd15_fbc.pth                            // relightvid motion weights
 </pre>
 
 
