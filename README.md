@@ -1,4 +1,4 @@
-# <img src="media/icon.png" style="vertical-align: -18px;" :height="40px" width="40px"> RelightVid
+# <img src="media/icon1.png" style="vertical-align: -18px;" :height="40px" width="40px"> RelightVid
 <!-- # RelightVid -->
 
 **[RelightVid: Temporal-Consistent Diffusion Model for Video Relighting](https://arxiv.org/abs/2501.16330)**
@@ -42,7 +42,7 @@
 
 
 ## 📜 News
-✨ [2025/3/25] The [inference code](xxx), [project page](xxx) and [huggingface demo](xxx) are released!
+✨ [2025/3/25] The [github code](xxx), [project page](xxx), [video](xxx) and [huggingface demo](xxx) are released!
 
 ✨ [2025/1/27] We release the [paper](https://arxiv.org/abs/2501.16330) of RelightVid!
 
@@ -57,8 +57,8 @@
 <!-- - 🔥 A comprehensive **LightAtlas** dataset is created, combining **real-world and 3D-rendered lighting pairs** to provide a rich foundation of illumination priors.  -->
 - 🔥 We propose **RelightVid**, a flexible framework for **realistic and temporally consistent video relighting** with excellent performance compared to existing baselines.  
 - 🔥 We build **LightAtlas**, a large-scale video dataset with **real-world and 3D-rendered lighting pairs** to provide rich illumination priors.  
-- 🌟 By incorporating **temporal layers**, the framework ensures strong **frame-to-frame consistency** while maintaining high-quality **relighting** throughout the video.  
-- 🌟 Supporting diverse inputs such as **text prompts, background videos, and HDR maps**, **RelightVid** allows for versatile and adaptive lighting manipulation across various video scenarios.
+- 🔥 By incorporating **temporal layers**, the framework ensures strong **frame-to-frame consistency** while maintaining high-quality **relighting** throughout the video.  
+- 🔥 Supporting diverse inputs such as **text prompts, background videos, and HDR maps**, **RelightVid** allows for versatile and adaptive lighting manipulation across various video scenarios.
 
 <!-- 
 ## 👨‍💻 Todo
