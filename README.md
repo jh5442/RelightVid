@@ -35,7 +35,6 @@
   </p>
 </div> -->
 
-
 <p align="center">
 <a href="https://arxiv.org/abs/2501.16330"><img src="https://img.shields.io/badge/arXiv-Paper-<color>"></a> &nbsp;
 <a href="https://aleafy.github.io/relightvid"><img src="https://img.shields.io/badge/Project-Website-red"></a> &nbsp;
