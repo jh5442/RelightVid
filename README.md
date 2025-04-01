@@ -46,9 +46,9 @@
 </p>
 
 
+https://github.com/user-attachments/assets/8adc5fc9-7cfc-4075-8cab-a4f733a529d5
 
-
-[![Click to watch](media/demo_video.png)](https://www.youtube.com/watch?v=8yTOgCgMyIM)
+<!-- [![Click to watch](media/demo_video.png)](https://www.youtube.com/watch?v=8yTOgCgMyIM) -->
 
 
 
@@ -210,8 +210,8 @@ python inference.py --input "./assets/input/dance.mp4" --mask "./assets/mask/dan
 ## 📝 TODO List
 - [✔] Release the arxiv and the project page.
 - [✔] Release the relighting inference code and huggingface demo using background condition.
-- [ ] Release the relighting inference code using more (text/hdr) conditions.
-- [ ] Release LightAtlas data augmentation pipeline and datasets. 
+- [ ] Release the relighting inference code using more (text/hdr) conditions. (Expected in May)
+- [ ] Release LightAtlas data augmentation pipeline and datasets. (Expected by the end of June)
 - [ ] Release training and evaluation code.
 
 
