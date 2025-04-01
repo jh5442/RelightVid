@@ -1,4 +1,4 @@
-# <img src="media/icon2.png" style="vertical-align: -18px;" :height="33px" width="33px"> RelightVid
+# <img src="media/icon6.png" style="vertical-align: -18px;" :height="33px" width="33px"> RelightVid
 <!-- # RelightVid -->
 
 **[RelightVid: Temporal-Consistent Diffusion Model for Video Relighting](https://arxiv.org/abs/2501.16330)**
@@ -37,7 +37,9 @@
 </div>
 
 
-https://github.com/user-attachments/assets/f8cf378c-dd0e-4b0f-aaa4-2fba9f63fa5f
+[![Click to watch](media/demo_video.png)](https://www.youtube.com/watch?v=8yTOgCgMyIM)
+
+
 
 <!-- ![Demo](./assets/demo.gif) -->
 <!-- ▶ [点击这里观看视频](https://files.catbox.moe/5kyifj.mp4) -->
