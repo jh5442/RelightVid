@@ -3,7 +3,6 @@ tmp
 models
 stablediffusionapi
 output
-assets
 masks_animatediff
 .gradio
 app.py
