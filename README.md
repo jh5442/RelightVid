@@ -26,19 +26,32 @@
 
 <!-- 🌐 🧭 🏠 🌟 ⭐-->
 
-<div align="center" style="font-family: Arial, sans-serif;">
+<!-- <div align="center" style="font-family: Arial, sans-serif;">
   <p>
     <a href="https://prmbench.github.io/" style="text-decoration: none; font-weight: bold;">🌻 Homepage</a> •
     <a href="https://arxiv.org/abs/2501.03124" style="text-decoration: none; font-weight: bold;">📑 Paper</a> •
     <a href="https://huggingface.co/datasets/hitsmy/PRMBench_Preview" style="text-decoration: none; font-weight: bold;">🤗 Demo</a> •
     <a href="xxx" style="text-decoration: none; font-weight: bold;"> 🎬 Video</a>
-    <!-- <a href="docs/document.md" style="text-decoration: none; font-weight: bold;">📖 Documentation</a> -->
   </p>
-</div>
+</div> -->
 
 
-[![Click to watch](media/demo_video.png)](https://www.youtube.com/watch?v=8yTOgCgMyIM)
+<!-- [![Click to watch](media/demo_video.png)](https://www.youtube.com/watch?v=8yTOgCgMyIM)
+ -->
+<p align="center">
+<a href="https://arxiv.org/abs/2312.03818"><img src="https://img.shields.io/badge/arXiv-Paper-<color>"></a> &nbsp;
+<a href="https://aleafy.github.io/alpha-clip"><img src="https://img.shields.io/badge/Project-Website-red"></a>  &nbsp;
+<a href="https://www.youtube.com/watch?v=_j-t8592GCM"><img src="https://img.shields.io/static/v1?label=Demo&message=Video&color=orange"></a> &nbsp;
+<a href="https://huggingface.co/spaces/Zery/Alpha_CLIP_ImgVar">
+    <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow">
+  </a>
+</p>
 
+
+
+<a href="https://www.youtube.com/watch?v=8yT0gCgMyIM" target="_blank">
+  <img src="media/demo_video.png" alt="Click to watch" />
+</a>
 
 
 <!-- ![Demo](./assets/demo.gif) -->
