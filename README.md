@@ -38,7 +38,7 @@
 
 <p align="center">
 <a href="https://arxiv.org/abs/2501.16330"><img src="https://img.shields.io/badge/arXiv-Paper-<color>"></a> &nbsp;
-<a href="https://aleafy.github.io/alpha-clip"><img src="https://img.shields.io/badge/Project-Website-red"></a> &nbsp;
+<a href="https://aleafy.github.io/relightvid"><img src="https://img.shields.io/badge/Project-Website-red"></a> &nbsp;
 <a href="https://www.youtube.com/watch?v=8yTOgCgMyIM"><img src="https://img.shields.io/static/v1?label=Demo&message=Video&color=orange"></a>  &nbsp;
 <a href="https://huggingface.co/spaces/aleafy/RelightVid">
     <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow">
@@ -163,10 +163,10 @@ RelightVid
 ### Perform video relighting with customized background condition
 ```bash
 python inference.py \
-  --input "./assets/input/woman.mp4" \
-  --mask "./assets/mask/woman" \
-  --bg_cond "./assets/video_bg/universe1.mp4" \
-  --output_path "output/woman_universe1.mp4"
+  --input "./assets/input/lion.mp4" \
+  --mask "./assets/mask/lion" \
+  --bg_cond "./assets/video_bg/stage_light2.mp4" \
+  --output_path "output/lion_stagelight2.mp4"
 ```
 Here, `--input` is the original video, `--mask` is the per-frame foreground mask directory, `--bg_cond` is the background lighting condition video, and `--output_path` is where the relit result will be saved. You can freely combine any input video with any background video.
 
@@ -176,12 +176,30 @@ Here, `--input` is the original video, `--mask` is the per-frame foreground mask
 
 ```bash
 python inference.py --input "./assets/input/woman.mp4" --mask "./assets/mask/woman" --bg_cond "./assets/video_bg/universe1.mp4" --output_path "output/woman_universe1.mp4"
-
-python inference.py --input "./assets/input/woman.mp4" --mask "./assets/mask/woman" --bg_cond "./assets/video_bg/universe1.mp4" --output_path "output/woman_universe1.mp4"
-
-python inference.py --input "./assets/input/woman.mp4" --mask "./assets/mask/woman" --bg_cond "./assets/video_bg/universe1.mp4" --output_path "output/woman_universe1.mp4"
-
-python inference.py --input "./assets/input/woman.mp4" --mask "./assets/mask/woman" --bg_cond "./assets/video_bg/universe1.mp4" --output_path "output/woman_universe1.mp4"
+```
+```bash
+python inference.py --input "./assets/input/woman.mp4" --mask "./assets/mask/woman" --bg_cond "./assets/video_bg/beach.mp4" --output_path "output/woman_beach.mp4"
+```
+```bash
+python inference.py --input "./assets/input/man.mp4" --mask "./assets/mask/man" --bg_cond "./assets/video_bg/tunnel.mp4" --output_path "output/man_tunnel.mp4"
+```
+```bash
+python inference.py --input "./assets/input/man2.mp4" --mask "./assets/mask/man2" --bg_cond "./assets/video_bg/fantasy.mp4" --output_path "output/man2_fantasy.mp4"
+```
+```bash
+python inference.py --input "./assets/input/lion.mp4" --mask "./assets/mask/lion" --bg_cond "./assets/video_bg/stage_light1.mp4" --output_path "output/lion_stagelight1.mp4"
+```
+```bash
+python inference.py --input "./assets/input/truck.mp4" --mask "./assets/mask/truck" --bg_cond "./assets/video_bg/universe3.mp4" --output_path "output/truck_universe3.mp4"
+```
+```bash
+python inference.py --input "./assets/input/truck.mp4" --mask "./assets/mask/truck" --bg_cond "./assets/video_bg/universe1.mp4" --output_path "output/truck_universe1.mp4"
+```
+```bash
+python inference.py --input "./assets/input/glass.mp4" --mask "./assets/mask/glass" --bg_cond "./assets/video_bg/snow.mp4" --output_path "output/glass_snow.mp4"
+```
+```bash
+python inference.py --input "./assets/input/dance.mp4" --mask "./assets/mask/dance" --bg_cond "./assets/video_bg/sunscape.mp4" --output_path "output/dance_sunscape.mp4"
 ```
 </details>
 <!-- - To ensure proper network connectivity for GPT-4V, add proxy environment settings in [main.py](https://github.com/Aleafy/Make_it_Real/blob/feb3563d57fbe18abbff8d4abfb48f71cc8f967b/main.py#L18) (optional). Also, please verify the reachability of your [API host](https://github.com/Aleafy/Make_it_Real/blob/feb3563d57fbe18abbff8d4abfb48f71cc8f967b/utils/gpt4_query.py#L68).

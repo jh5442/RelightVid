@@ -79,8 +79,16 @@ def apply_mask_to_video(video_path, mask_folder, crop_size=512):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # Fix broadcasting issue
-        result_frame = np.where(mask[:, :, None] > 0, frame, 128).astype(np.uint8)
+        # result_frame = np.where(mask[:, :, None] > 0, frame, 128).astype(np.uint8)
+        mask_float = mask.astype(np.float32) / 255.0
 
+        if mask_float.ndim == 2:
+            mask_float = mask_float[:, :, None]
+
+        gray_background = np.ones_like(frame, dtype=np.float32) * 128.0
+        result_frame = frame.astype(np.float32) * mask_float + gray_background * (1.0 - mask_float)
+
+        result_frame = np.clip(result_frame, 0, 255).astype(np.uint8)
         result_image = Image.fromarray(result_frame)
         processed_frame = transform(result_image)
         frames.append(processed_frame)
