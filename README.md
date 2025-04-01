@@ -36,8 +36,6 @@
 </div> -->
 
 
-<!-- [![Click to watch](media/demo_video.png)](https://www.youtube.com/watch?v=8yTOgCgMyIM)
- -->
 <p align="center">
 <a href="https://arxiv.org/abs/2501.16330"><img src="https://img.shields.io/badge/arXiv-Paper-<color>"></a> &nbsp;
 <a href="https://aleafy.github.io/alpha-clip"><img src="https://img.shields.io/badge/Project-Website-red"></a> &nbsp;
@@ -49,9 +47,9 @@
 
 
 
-<a href="https://www.youtube.com/watch?v=8yT0gCgMyIM" target="_blank">
-  <img src="media/demo_video.png" alt="Click to watch" />
-</a>
+
+[![Click to watch](media/demo_video.png)](https://www.youtube.com/watch?v=8yTOgCgMyIM)
+
 
 
 <!-- ![Demo](./assets/demo.gif) -->
