@@ -1,7 +1,7 @@
 # <img src="media/icon6.png" style="vertical-align: -18px;" :height="33px" width="33px"> RelightVid
 <!-- # RelightVid -->
 
-**[RelightVid: Temporal-Consistent Diffusion Model for Video Relighting](https://arxiv.org/abs/2501.16330)**
+**[RelightVid: Temporal-Consistent Diffusion Model for Video Relighting](https://aleafy.github.io/relightvid/)**
 </br>
 [Ye Fang](https://github.com/Aleafy)\*,
 [Zeyi Sun](https://github.com/SunzeY)\*,
@@ -39,10 +39,10 @@
 <!-- [![Click to watch](media/demo_video.png)](https://www.youtube.com/watch?v=8yTOgCgMyIM)
  -->
 <p align="center">
-<a href="https://arxiv.org/abs/2312.03818"><img src="https://img.shields.io/badge/arXiv-Paper-<color>"></a> &nbsp;
-<a href="https://aleafy.github.io/alpha-clip"><img src="https://img.shields.io/badge/Project-Website-red"></a>  &nbsp;
-<a href="https://www.youtube.com/watch?v=_j-t8592GCM"><img src="https://img.shields.io/static/v1?label=Demo&message=Video&color=orange"></a> &nbsp;
-<a href="https://huggingface.co/spaces/Zery/Alpha_CLIP_ImgVar">
+<a href="https://arxiv.org/abs/2501.16330"><img src="https://img.shields.io/badge/arXiv-Paper-<color>"></a> 
+<a href="https://aleafy.github.io/alpha-clip"><img src="https://img.shields.io/badge/Project-Website-red"></a> 
+<a href="https://www.youtube.com/watch?v=8yTOgCgMyIM"><img src="https://img.shields.io/static/v1?label=Demo&message=Video&color=orange"></a>
+<a href="https://huggingface.co/spaces/aleafy/RelightVid">
     <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow">
   </a>
 </p>
@@ -60,7 +60,7 @@
 
 
 ## 📜 News
-✨ [2025/3/25] The [github code](xxx), [project page](xxx), [video](xxx) and [huggingface demo](xxx) are released!
+✨ [2025/3/25] The [github code](https://github.com/Aleafy/RelightVid), [project page](https://aleafy.github.io/relightvid/), [video](https://www.youtube.com/watch?v=8yTOgCgMyIM) and [huggingface demo](https://huggingface.co/spaces/aleafy/RelightVid) are released!
 
 ✨ [2025/1/27] We release the [paper](https://arxiv.org/abs/2501.16330) of RelightVid!
 
