@@ -58,7 +58,7 @@ https://github.com/user-attachments/assets/753d3e3e-146b-4bec-975a-65d91b14d4af
 
 
 ## 📜 News
-✨ [2025/3/25] The [github code](https://github.com/Aleafy/RelightVid), [project page](https://aleafy.github.io/relightvid/), [video](https://www.youtube.com/watch?v=8yTOgCgMyIM) and [huggingface demo](https://huggingface.co/spaces/aleafy/RelightVid) are released!
+✨ [2025/4/2] The [github code](https://github.com/Aleafy/RelightVid), [project page](https://aleafy.github.io/relightvid/), [video](https://www.youtube.com/watch?v=8yTOgCgMyIM) and [huggingface demo](https://huggingface.co/spaces/aleafy/RelightVid) are released!
 
 ✨ [2025/1/27] We release the [paper](https://arxiv.org/abs/2501.16330) of RelightVid!
 
