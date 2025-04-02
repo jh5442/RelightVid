@@ -105,9 +105,9 @@ To reproduce the results, please download the following models, and organize the
 
 - [IC-Light](https://huggingface.co/lllyasviel/ic-light/tree/main)
 - [RealisticVision-v51](https://huggingface.co/stablediffusionapi/realistic-vision-v51/tree/main)
-- [RelightVid](https://huggingface.co/aleafy/RelightVid/tree/main)
+- [RelightVid](https://huggingface.co/aleafy/relightvid_models/tree/main)
 
-You can download all the models through [here](https://huggingface.co/aleafy/RelightVid/tree/main).
+You can download all the models through [here](https://huggingface.co/aleafy/relightvid_models/tree/main).
  <!-- 1. **Annotations**: in `data/material_lib/annotations` [folder](data/material_lib/annotations), include:
     - Highly-detailed descriptions by GPT-4V: offering thorough descriptions of the material’s visual characteristics and rich semantic information.
     - Category-tree: Divided into a hierarchical structure with coarse and fine granularity, it includes over 80 subcategories.
