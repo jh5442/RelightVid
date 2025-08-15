@@ -66,7 +66,8 @@ def apply_mask_to_video(video_path, mask_folder, crop_size=512):
         if not ret:
             break
 
-        mask_path = os.path.join(mask_folder, f"{frame_idx:04d}.png")
+        mask_path = os.path.join(mask_folder, f"frame_{frame_idx:05d}.png")
+        # print(mask_path)
         if not os.path.exists(mask_path):
             frame_idx += 1
             continue

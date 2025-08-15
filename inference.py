@@ -28,6 +28,10 @@ def main(args):
 
     cond_fg_tensor = relvid_model.encode_image_to_latent(fg_tensor)
     cond_bg_tensor = relvid_model.encode_image_to_latent(bg_tensor)
+
+    print(cond_fg_tensor.shape)
+    print(cond_bg_tensor.shape)
+
     cond_tensor = torch.cat((cond_fg_tensor, cond_bg_tensor), dim=2)
 
     # Initialize latent tensor
